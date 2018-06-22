@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>用户列表</title>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.bootcss.com/bootstrap-table/1.12.1/bootstrap-table.css" rel="stylesheet">
+</head>
+<body>
+
+<table id="table"></table>
+
+<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap-table/1.12.1/bootstrap-table.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap-table/1.12.1/locale/bootstrap-table-zh-CN.min.js"></script>
+
+<script>
+    $('#table').bootstrapTable({
+        columns: [{
+            field: 'username',
+            title: '用户名',
+        }, {
+            field: 'realname',
+            title: '真实姓名',
+        }, {
+            field: 'tel',
+            title: '联系方式',
+        },{
+            field: 'email',
+            title: '邮件',
+        }
+        ],
+        showToggle:true, //是否显示 切换试图（table/card）按钮
+        showRefresh: true,
+        locale:'zh-CN',//中文支持
+        //页面需要展示的列，后端交互对象的属性
+        pagination: true,  //开启分页
+        sidePagination: 'server',
+        pageNumber: 1,//默认加载页
+        pageSize: 10,//每页数据
+        pageList: [5,10,15,20],//可选的每页数据
+        queryParamsType:'',//queryParamsType的默认值为 'limit' ,在默认情况下 传给服务端的参数为：offset,limit,sort
+        //设置为 ''  在这种情况下传给服务器的参数为：pageSize,pageNumber */
+        queryParams: function (params) {
+            return {
+                pageNumber:params.pageNumber,
+                pageSize:params.pageSize
+            }
+        },//请求服务器数据时的参数
+        url: '/user/list', //服务器数据的加载地址
+        responseHandler:function(res){
+            //在ajax获取到数据，渲染表格之前，修改数据源
+            var nres = [];
+            nres.push({total:res.total,rows:res.list});
+            return nres[0];
+        }
+    });
+</script>
+</body>
+</html>
