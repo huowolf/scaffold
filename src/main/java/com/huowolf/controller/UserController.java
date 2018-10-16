@@ -1,7 +1,6 @@
-package com.huowolf;
+package com.huowolf.controller;
 
 import com.github.pagehelper.PageInfo;
-import com.huowolf.mapper.UserInfoMapper;
 import com.huowolf.model.UserInfo;
 import com.huowolf.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
